@@ -62,27 +62,3 @@ export const App = () => {
     </>
   );
 };
-
-// stateIncrement = event => {
-//   this.setState(prevState => {
-//     switch (event.target.innerText) {
-//       case 'Good':
-//         return { good: prevState.good + 1 };
-//       case 'Neutral':
-//         return { neutral: prevState.neutral + 1 };
-//       case 'Bad':
-//         return { bad: prevState.bad + 1 };
-//       default:
-//         return;
-//     }
-//   });
-// };
-
-// countTotalFeedback = () => {
-//   const { good, neutral, bad } = this.state;
-//   return good + neutral + bad;
-// };
-
-// countPositiveFeedbackPercentage = () => {
-//   return Math.round((this.state.good / this.countTotalFeedback()) * 100);
-// };
