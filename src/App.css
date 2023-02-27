@@ -1,0 +1,9 @@
+body {
+  background-color: honeydew;
+}
+
+.feedalert {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+}
