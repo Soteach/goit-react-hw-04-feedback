@@ -1,18 +1,18 @@
 import React from 'react';
 import './Feedback.css';
 
-export const Feedback = ({ onIncrement }) => (
+export const Feedback = ({ options, onLeaveFeedback }) => (
   <>
     <div className="Controls">
-      <button type="button" onClick={onIncrement}>
-        Good
-      </button>
-      <button type="button" onClick={onIncrement}>
-        Neutral
-      </button>
-      <button type="button" onClick={onIncrement}>
-        Bad
-      </button>
+      <ul className="FeedList">
+        {options.map(option => (
+          <li key={option}>
+            <button onClick={onLeaveFeedback} name={option} type="button">
+              {option}
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   </>
 );

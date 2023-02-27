@@ -1,66 +1,88 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { Feedback } from './Feedback/Feedback';
 import { Statistics } from '../components/Statistics/Statistix';
 import { Section } from './Section/Section';
 import '../App.css';
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+export const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  stateIncrement = event => {
-    this.setState(prevState => {
-      switch (event.target.innerText) {
-        case 'Good':
-          return { good: prevState.good + 1 };
-        case 'Neutral':
-          return { neutral: prevState.neutral + 1 };
-        case 'Bad':
-          return { bad: prevState.bad + 1 };
-        default:
-          return;
-      }
-    });
-  };
+  const options = ['good', 'neutral', 'bad'];
 
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
+  const countTotalFeedback = () => {
     return good + neutral + bad;
   };
 
-  countPositiveFeedbackPercentage = () => {
-    return Math.round((this.state.good / this.countTotalFeedback()) * 100);
+  const feedback = countTotalFeedback();
+
+  const positivePercentage = () => {
+    return good ? Math.round((good / countTotalFeedback()) * 100) : 0;
   };
 
-  render() {
-    return (
-      <>
-        <Section title="Feedback">
-          <Feedback feedback={this.state} onIncrement={this.stateIncrement} />
-        </Section>
-        <Section title="Statistics">
-          {this.countTotalFeedback() ? (
-            <Statistics
-              good={this.state.good}
-              neutral={this.state.neutral}
-              bad={this.state.bad}
-              total={this.countTotalFeedback()}
-              percentage={
-                !isNaN(this.countPositiveFeedbackPercentage())
-                  ? this.countPositiveFeedbackPercentage()
-                  : 0
-              }
-            />
-          ) : (
-            <div className="Container">
-              <p className="feedalert">There is no feedback</p>
-            </div>
-          )}
-        </Section>
-      </>
-    );
-  }
-}
+  const positiveFeedback = positivePercentage();
+
+  const handleFeedback = event => {
+    switch (event.target.name) {
+      case 'good':
+        setGood(good + 1);
+        break;
+      case 'neutral':
+        setNeutral(neutral + 1);
+        break;
+      case 'bad':
+        setBad(bad + 1);
+        break;
+      default:
+        return;
+    }
+  };
+
+  return (
+    <>
+      <Section title="Feedback">
+        <Feedback options={options} onLeaveFeedback={handleFeedback} />
+      </Section>
+      <Section title="Statistics">
+        {feedback > 0 ? (
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={feedback}
+            percentage={positiveFeedback}
+          />
+        ) : (
+          <div className="Container">
+            <p className="feedalert">There is no feedback</p>
+          </div>
+        )}
+      </Section>
+    </>
+  );
+};
+
+// stateIncrement = event => {
+//   this.setState(prevState => {
+//     switch (event.target.innerText) {
+//       case 'Good':
+//         return { good: prevState.good + 1 };
+//       case 'Neutral':
+//         return { neutral: prevState.neutral + 1 };
+//       case 'Bad':
+//         return { bad: prevState.bad + 1 };
+//       default:
+//         return;
+//     }
+//   });
+// };
+
+// countTotalFeedback = () => {
+//   const { good, neutral, bad } = this.state;
+//   return good + neutral + bad;
+// };
+
+// countPositiveFeedbackPercentage = () => {
+//   return Math.round((this.state.good / this.countTotalFeedback()) * 100);
+// };
